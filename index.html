@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environmental Data Analyst Portfolio</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Header Slideshow */
+        .header-slideshow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        
+        .slide.active {
+            opacity: 1;
+        }
+        
+        .slide-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        
+        .header-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            width: 80%;
+            max-width: 800px;
+        }
+        
+        .header-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .header-content p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+        
+        /* Flywheel Navigation */
+        .flywheel-nav {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .flywheel-item {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: rgba(44, 62, 80, 0.8);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.9rem;
+            padding: 5px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .flywheel-item:hover {
+            background-color: rgba(52, 152, 219, 0.8);
+            transform: scale(1.1);
+        }
+        
+        .flywheel-item.active {
+            background-color: rgba(231, 76, 60, 0.8);
+            transform: scale(1.1);
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-top: 100vh;
+            background-color: white;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Sections */
+        section {
+            min-height: 100vh;
+            padding: 80px 10% 50px;
+            position: relative;
+        }
+        
+        section h1 {
+            font-size: 2.8rem;
+            margin-bottom: 40px;
+            color: #2c3e50;
+            position: relative;
+            padding-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        section h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 5px;
+            background-color: #3498db;
+        }
+        
+        .profile-pic {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #3498db;
+        }
+        
+        /* Academic History Section */
+        #academic {
+            background-color: #ffffff;
+        }
+        
+        .profile-summary {
+            background-color: #f1f5f9;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            border-left: 5px solid #3498db;
+        }
+        
+        .profile-summary h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .academic-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .education-item {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .education-item h3 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 1.3rem;
+        }
+        
+        .education-item .date {
+            color: #7f8c8d;
+            font-style: italic;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .skills-container {
+            background-color: #f1f5f9;
+            padding: 30px;
+            border-radius: 8px;
+        }
+        
+        .skills-container h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .skill-tag {
+            background-color: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        /* Data Analyst Experience Section */
+        #data-analyst {
+            background-color: #f1f5f9;
+        }
+        
+        .pdf-container {
+            margin-top: 30px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .pdf-viewer {
+            height: 600px;
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f9f9f9;
+        }
+        
+        /* Industry Work Experience Section */
+        #industry {
+            background-color: #ffffff;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 40px auto;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background-color: #3498db;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+        
+        .timeline-content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timeline-content h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-size: 1.3rem;
+        }
+        
+        .timeline-date {
+            color: #7f8c8d;
+            font-style: italic;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #e74c3c;
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+        
+        .timeline-item:nth-child(odd)::after {
+            right: -10px;
+        }
+        
+        .timeline-item:nth-child(even)::after {
+            left: -10px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .header-content h1 {
+                font-size: 2.8rem;
+            }
+            
+            .header-content p {
+                font-size: 1.2rem;
+            }
+            
+            .academic-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            
+            .timeline-item::after {
+                left: 20px;
+            }
+            
+            .timeline-item:nth-child(odd)::after,
+            .timeline-item:nth-child(even)::after {
+                left: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header-content p {
+                font-size: 1rem;
+            }
+            
+            .flywheel-nav {
+                right: 15px;
+            }
+            
+            .flywheel-item {
+                width: 50px;
+                height: 50px;
+                font-size: 0.7rem;
+            }
+            
+            section {
+                padding: 80px 5% 50px;
+            }
+            
+            section h1 {
+                font-size: 2.2rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .profile-pic {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .pdf-viewer {
+                height: 400px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header-content h1 {
+                font-size: 1.8rem;
+            }
+            
+            .flywheel-nav {
+                flex-direction: row;
+                top: auto;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                right: auto;
+                background-color: rgba(44, 62, 80, 0.9);
+                padding: 10px;
+                border-radius: 30px;
+            }
+            
+            .flywheel-item {
+                width: 40px;
+                height: 40px;
+                font-size: 0.6rem;
+            }
+            
+            section h1 {
+                font-size: 1.8rem;
+            }
+            
+            .pdf-viewer {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Slideshow -->
+    <div class="header-slideshow">
+        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+        <div class="slide-overlay"></div>
+        <div class="header-content">
+            <h1>Environmental Data Analyst</h1>
+            <p>Expertise in Data Analysis with a strong foundation in environmental science</p>
+        </div>
+    </div>
+    
+    <!-- Flywheel Navigation Menu -->
+    <nav class="flywheel-nav">
+        <div class="flywheel-item active" data-section="academic">Academic</div>
+        <div class="flywheel-item" data-section="data-analyst">Data Analyst</div>
+        <div class="flywheel-item" data-section="industry">Industry</div>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Academic History Section -->
+        <section id="academic">
+            <h1>Academic History</h1>
+            
+            <div class="profile-summary">
+                <h2>Profile Summary</h2>
+                <p>Stefan Moholea is a 4 years experienced data analyst with expertise in Data Analysis and a strong foundation in environmental science, skilled in tools such as Excel (Power Query, Macro), R, SQL (BigQuery), Python, and Tableau. Experienced in analyzing complex data and providing actionable insights to support business decision-making across sectors. Proven ability to apply data analysis in sustainable planning, environmental assessments, and climate change adaptation projects, bringing a unique perspective to data-driven strategies.</p>
+            </div>
+            
+            <div class="academic-content">
+                <div>
+                    <h2>Education</h2>
+                    
+                    <div class="education-item">
+                        <h3>Griffith University / Bachelor of Environmental Science</h3>
+                        <span class="date">2011-2017</span>
+                        <p>Water Quality investigation. Analyzing cyanobacterial growth in nitrogen present and deplete conditions, eutrophication and explaining and connecting ecosystem and human health impacts.</p>
+                    </div>
+                    
+                    <div class="education-item">
+                        <h3>Griffith University / Master of Environmental Science</h3>
+                        <span class="date">2017-2019</span>
+                        <p>Analysis of 5 river systems for 6 different pollutant metrics. In data analysis of the project data: Critical review of the SEQ water quality guidelines 2009 (State) to The Australian Drinking water quality guidelines (Federal). Highlighting extra-polarities, irregularities and exceedances.</p>
+                    </div>
+                </div>
+                
+                <div class="skills-container">
+                    <h2>Professional Skills</h2>
+                    <div class="skills-list">
+                        <span class="skill-tag">Data Analysis & Visualization</span>
+                        <span class="skill-tag">SQL Data Analysis</span>
+                        <span class="skill-tag">Python for Data Mining</span>
+                        <span class="skill-tag">Environmental Legislation</span>
+                        <span class="skill-tag">KPI Achievement</span>
+                        <span class="skill-tag">Communication</span>
+                        <span class="skill-tag">Excel (Power Query, Macro)</span>
+                        <span class="skill-tag">R Programming</span>
+                        <span class="skill-tag">Tableau</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Data Analyst Experience Section -->
+        <section id="data-analyst">
+            <h1>
+                Data Analyst Experience
+                <img src="Stefan.jpg" alt="Profile Picture" class="profile-pic">
+            </h1>
+            <p>Below is a showcase of my data analysis projects and methodologies. The PDF includes case studies, visualizations, and technical approaches to solving complex data problems.</p>
+            
+            <div class="pdf-container">
+                <div class="pdf-viewer">
+                    <!-- Replace with your actual PDF embed code -->
+                    <iframe src="Data-clean-final.pdf" style="width:100%; height:100%; border:none;"></iframe>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Industry Work Experience Section -->
+        <section id="industry">
+            <h1>Industry Work Experience</h1>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Science Technician</h3>
+                        <span class="timeline-date">Healthy Land & Water Brisbane | Feb 2017 - March 2018</span>
+                        <ul style="margin-top: 10px; list-style-type: disc; padding-left: 20px;">
+                            <li>Conducted water quality surveys, field studies, and laboratory practices, including sample collection</li>
+                            <li>Equipment maintenance, data input, and analysis following QAQC standards</li>
+                            <li>Supported training activities in aquatic ecosystem health monitoring</li>
+                            <li>Provided technical advice on emerging environmental trends to inform reporting</li>
+                            <li>Collaborated with internal stakeholders and interdisciplinary teams to ensure effective communication and integration of environmental data insights</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Environmental Reporter</h3>
+                        <span class="timeline-date">Data Entry Ventia, Melbourne | Aug 2018 - Sep 2019</span>
+                        <ul style="margin-top: 10px; list-style-type: disc; padding-left: 20px;">
+                            <li>Interpreting baseline Environmental Site Assessments</li>
+                            <li>Interpreting government legislation</li>
+                            <li>Understanding and knowledge of the Petroleum Industry in Victoria in terms of adhering to Environmental Standards</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <script>
+        // Slideshow functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            let currentSlide = 0;
+            
+            function showSlide(n) {
+                slides.forEach(slide => slide.classList.remove('active'));
+                slides[n].classList.add('active');
+            }
+            
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+            
+            // Change slide every 5 seconds
+            setInterval(nextSlide, 5000);
+            
+            // Also change slide on scroll
+            let lastScrollPosition = 0;
+            window.addEventListener('scroll', function() {
+                const currentScrollPosition = window.pageYOffset;
+                if (Math.abs(currentScrollPosition - lastScrollPosition) > 100) {
+                    nextSlide();
+                    lastScrollPosition = currentScrollPosition;
+                }
+            });
+            
+            // Flywheel Navigation Functionality
+            const flywheelItems = document.querySelectorAll('.flywheel-item');
+            const sections = document.querySelectorAll('section');
+            
+            // Function to check which section is in view
+            function checkScroll() {
+                let currentSection = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (window.scrollY >= (sectionTop - sectionHeight / 3)) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+                
+                flywheelItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('data-section') === currentSection) {
+                        item.classList.add('active');
+                    }
+                });
+            }
+            
+            // Smooth scroll to section when flywheel item is clicked
+            flywheelItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('data-section');
+                    const targetSection = document.getElementById(targetId);
+                    
+                    window.scrollTo({
+                        top: targetSection.offsetTop,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // Check scroll position on load and scroll
+            window.addEventListener('load', checkScroll);
+            window.addEventListener('scroll', checkScroll);
+        });
+    </script>
+</body>
+</html>
