@@ -255,6 +255,62 @@
             background-color: #f9f9f9;
         }
         
+        /* Power BI Project Section */
+        .powerbi-project {
+            margin-top: 60px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .powerbi-project h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            margin: 30px 0;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .project-description {
+            margin-top: 30px;
+            line-height: 1.8;
+        }
+        
+        .project-description h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .project-description ul {
+            margin-top: 15px;
+            padding-left: 20px;
+        }
+        
+        .project-description li {
+            margin-bottom: 10px;
+        }
+        
         /* Industry Work Experience Section */
         #industry {
             background-color: #ffffff;
@@ -293,7 +349,11 @@
         }
         
         .timeline-content {
-            padding: 20px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
@@ -521,6 +581,42 @@
                 <div class="pdf-viewer">
                     <!-- Replace with your actual PDF embed code -->
                     <iframe src="Data-clean-final.pdf" style="width:100%; height:100%; border:none;"></iframe>
+                </div>
+            </div>
+
+            <!-- Power BI Project Section -->
+            <div class="powerbi-project">
+                <h2>Power BI Data Analysis: Indian Takeaway Orders</h2>
+                
+                <div class="video-container">
+                    <!-- Replace with your actual Power BI video embed -->
+                    <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allowfullscreen></iframe>
+                </div>
+                
+                <div class="project-description">
+                    <h3>Time Series Analysis of Two Indian Restaurants</h3>
+                    <p>This project analyzes a comprehensive dataset of 19,560 Indian takeaway orders from two restaurants over time, sourced from Kaggle. The analysis provides valuable insights into sales patterns, customer behavior, and menu performance.</p>
+                    
+                    <h3>Key Features of the Analysis:</h3>
+                    <ul>
+                        <li><strong>Time Series Visualization:</strong> Tracked sales trends over days, weeks, and months to identify seasonal patterns and growth trajectories</li>
+                        <li><strong>Product Performance:</strong> Analyzed which menu items were most popular and profitable at each restaurant</li>
+                        <li><strong>Customer Behavior:</strong> Examined order frequency, average order value, and preferred ordering times</li>
+                        <li><strong>Comparative Analysis:</strong> Benchmarked performance between the two restaurants to identify operational differences</li>
+                        <li><strong>Actionable Insights:</strong> Provided data-driven recommendations for menu optimization and promotional timing</li>
+                    </ul>
+                    
+                    <h3>Technical Implementation:</h3>
+                    <p>The project leveraged Power BI's advanced capabilities including:</p>
+                    <ul>
+                        <li>Data cleaning and transformation using Power Query</li>
+                        <li>Creation of custom measures and calculated columns using DAX</li>
+                        <li>Interactive time series visualizations with drill-down capabilities</li>
+                        <li>Custom tooltips and bookmarks for enhanced user experience</li>
+                        <li>Performance optimization techniques for handling large datasets</li>
+                    </ul>
+                    
+                    <p>The full dataset is available on <a href="https://www.kaggle.com/datasets/henslersoftware/19560-indian-takeaway-orders/data" target="_blank">Kaggle</a> for those interested in exploring the raw data.</p>
                 </div>
             </div>
         </section>
